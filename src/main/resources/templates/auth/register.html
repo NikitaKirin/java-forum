@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout('Register', ~{::section}, ${messages})}">
+<body>
+<section>
+    <h1>Register</h1>
+    <!--/*@thymesVar id="registerDTO" type="nikitakirin.forum.dto.RegisterDTO"*/-->
+    <form th:action="@{/register}" th:object="${registerDTO}" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="username" class="form-label">Name</label>
+            <input type="text" class="form-control" id="username" placeholder="username" name="username"
+                   th:classappend="${#fields.hasErrors('username')}? 'is-invalid'"
+                   th:field="*{username}">
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">password</label>
+            <input type="password" th:field="*{password}" class="form-control" id="password"
+                      th:classappend="${#fields.hasErrors('password')}? 'is-invalid'"
+                      placeholder="password">
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+</section>
+</body>
+</html>

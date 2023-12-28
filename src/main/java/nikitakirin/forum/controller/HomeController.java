@@ -13,10 +13,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
-        Map<String, String> messages = new HashMap<>();
-        messages.put("info", "You're welcome!");
         model.addAttribute("request", request);
-        model.addAttribute("messages", messages);
         return "home";
     }
 }

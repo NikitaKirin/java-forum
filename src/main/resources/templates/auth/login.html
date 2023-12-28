@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout('Login', ~{::section}, ${messages})}">
+<body>
+<section>
+    <h1>Login</h1>
+    <!--/*@thymesVar id="loginDTO" type="nikitakirin.forum.dto.LoginDTO"*/-->
+    <form th:action="@{/login}" th:object="${loginDTO}" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Email" name="email"
+                   th:classappend="${#fields.hasErrors('email')}? 'is-invalid'"
+                   th:field="*{email}">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">password</label>
+            <input type="password" th:field="*{password}" class="form-control" id="password"
+                   th:classappend="${#fields.hasErrors('password')}? 'is-invalid'"
+                   placeholder="password">
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">login</button>
+        </div>
+</section>
+</body>
+</html>
