@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout('Forum: post', ~{::section}, ${messages})}">
+<body>
+<section>
+    <div>
+        <h1>[[${post.title}]]</h1>
+        <p>[[${post.description}]]</p>
+        <p class="text-body-tertiary">[[${#dates.format(post.creationDatetime, 'dd.MM.Y / HH:mm')}]]</p>
+    </div>
+</section>
+</body>
+</html>

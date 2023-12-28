@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" th:fragment="layout (title, content, messages)" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{ fragments/default/head :: head(${title})}"></head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{ fragments/default/header }" class="col"></header>
 <main class="container col">
+    <div th:replace="fragments/default/messages :: messages(${messages})"></div>
     <div th:replace="${content}"></div>
 </main>
 <footer th:replace="~{fragments/default/footer}"></footer>

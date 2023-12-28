@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout('Forum: create post', ~{::section}, ${messages})}">
+<body>
+<section>
+    <h1>Save the post</h1>
+    <!--/*@thymesVar id="postDTO" type="nikitakirin.forum.dto.PostDTO"*/-->
+    <form th:action="@{/posts/save}" th:object="${postDTO}" method="post" class="needs-validation">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Title" name="title"
+                   th:classappend="${#fields.hasErrors('title')}? 'is-invalid'"
+                   th:field="*{title}">
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea th:field="*{description}" rows="5" cols="5" class="form-control" id="description"
+                      th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"
+                      placeholder="Description"></textarea>
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

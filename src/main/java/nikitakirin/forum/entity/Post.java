@@ -15,6 +15,6 @@ public class Post {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-    private int creationDatetime;
+    private Long creationDatetime;
 
 }

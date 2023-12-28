@@ -1,0 +1,7 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="messages(messages)" th:class="'alert alert-' + ${message.key}" role="alert"
+     th:unless="${#maps.isEmpty(messages)}"
+     th:each="message : ${messages}">
+    [[${message.value}]]
+</div>
+</html>
