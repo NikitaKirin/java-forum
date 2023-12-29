@@ -44,6 +44,28 @@
     <div th:if="${posts.isEmpty()}" class="alert alert-primary" role="alert">
         Posts not found!
     </div>
+
+    <div th:if="${totalPages > 1}">
+        <ul class="pagination">
+            <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/posts?page=0}">First</a>
+            </li>
+            <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/posts(page=${currentPage - 1})}">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${currentPage == i} ? 'page-item active' : 'page-item'">
+                <a class="page-link" th:href="@{/posts(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/posts(page=${currentPage + 1})}">Next</a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" th:href="@{/posts(page=${totalPages - 1})}">Last</a>
+            </li>
+        </ul>
+    </div>
+
 </section>
 </body>
 </html>

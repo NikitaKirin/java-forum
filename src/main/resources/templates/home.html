@@ -2,7 +2,58 @@
       th:replace="~{layouts/default :: layout('Forum: home', ~{::section}, ${messages})}">
 <body>
 <section>
-    <h1>Home page</h1>
+    <h1 class="text-center mb-5">Forum</h1>
+    <div class="row">
+        <h2>Stats</h2>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Posts</h5>
+                    <p class="card-text">Total Posts: <strong>[[${postCount}]]</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text">Total Categories: <strong>[[${categoryCount}]]</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">Total Users: <strong>[[${userCount}]]</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2>Latest posts</h2>
+        <div class="row">
+            <div th:each="post : ${latestPosts}" class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">[[${post.title}]]</h5>
+                        <p class="card-text">[[${#strings.length(post.description) > 25 ?
+                            #strings.substring(post?.description,
+                            0, 25) + '...' : post?.description}]]</p>
+                        <p>Author: [[${post.user.username}]]</p>
+                        <p>Categories:
+                            <strong th:each="category: ${post.categories}">#[[${category.title + " "}]]</strong>
+                            <strong th:if="${post.categories.isEmpty()}">Not categories</strong>
+                        </p>
+                        <p class="text-body-tertiary">[[${#dates.format(post.creationDatetime, 'dd.MM.Y / HH:mm')}]]</p>
+                        <a th:href="@{/posts/{postId}(postId=${post.id})}" class="btn btn-primary">Read more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 </body>
 </html>

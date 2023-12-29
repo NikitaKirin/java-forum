@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <header class="mb-5">
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2 border-primary">
         <div class="container">
@@ -23,6 +23,11 @@
                            aria-current="page" th:href="@{/categories}">Categories</a>
                     </li>
                 </ul>
+                <div class="btn-group">
+                    <a class="btn btn-secondary" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+                    <a class="btn btn-primary" sec:authorize="not isAuthenticated()" th:href="@{/login}">Login</a>
+                    <a class="btn btn-primary" sec:authorize="not isAuthenticated()" th:href="@{/register}">Register</a>
+                </div>
             </div>
         </div>
     </nav>

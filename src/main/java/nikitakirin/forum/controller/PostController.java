@@ -3,36 +3,31 @@ package nikitakirin.forum.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nikitakirin.forum.dto.PostDTO;
-import nikitakirin.forum.entity.Category;
 import nikitakirin.forum.entity.Post;
 import nikitakirin.forum.entity.User;
 import nikitakirin.forum.repository.CategoryRepository;
 import nikitakirin.forum.repository.PostRepository;
 import nikitakirin.forum.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@Slf4j
 @RequestMapping("posts")
 @RequiredArgsConstructor
 public class PostController {
@@ -42,9 +37,12 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping
-    public String index(HttpServletRequest request, Model model) {
-        model.addAttribute("posts", postRepository.findAll());
+    public String index(HttpServletRequest request, Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<Post> posts = postRepository.findAll(PageRequest.of(page, 3));
+        model.addAttribute("posts", posts);
         model.addAttribute("request", request);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", posts.getTotalPages());
         return "post/index";
     }
 
