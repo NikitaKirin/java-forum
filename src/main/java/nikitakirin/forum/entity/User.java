@@ -24,8 +24,7 @@ public class User implements UserDetails {
     private boolean enabled;
     private String authority;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
     private List<Post> posts;
 
     public List<GrantedAuthority> getAuthorities() {

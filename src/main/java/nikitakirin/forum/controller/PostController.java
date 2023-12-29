@@ -3,10 +3,17 @@ package nikitakirin.forum.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nikitakirin.forum.dto.PostDTO;
 import nikitakirin.forum.entity.Post;
+import nikitakirin.forum.entity.User;
 import nikitakirin.forum.repository.PostRepository;
+import nikitakirin.forum.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,11 +29,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 @RequestMapping("posts")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostRepository postRepository;
+    private final UserService userService;
 
     @GetMapping
     public String index(HttpServletRequest request, Model model) {
@@ -64,7 +73,7 @@ public class PostController {
 
     @PostMapping("save")
     public String save(@Valid PostDTO postDTO, BindingResult result, Model model,
-                       RedirectAttributes redirectAttributes) {
+                       RedirectAttributes redirectAttributes, Authentication authentication) {
         Map<String, String> messages = new HashMap<>();
         if (result.hasErrors()) {
             messages.put("danger", "You entered incorrect data!");
@@ -72,6 +81,9 @@ public class PostController {
             return save(postDTO, model);
         }
         Post post = postDTO.toEntity();
+        var userDetails = (UserDetails) authentication.getPrincipal();
+        User user = (User) userService.loadUserByUsername(userDetails.getUsername());
+        post.setUser(user);
         postRepository.save(post);
         messages.put("success", "Post successfully saved!");
         redirectAttributes.addFlashAttribute("messages", messages);

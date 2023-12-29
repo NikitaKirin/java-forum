@@ -2,6 +2,7 @@ package nikitakirin.forum.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Entity
@@ -16,5 +17,9 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Long creationDatetime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }
