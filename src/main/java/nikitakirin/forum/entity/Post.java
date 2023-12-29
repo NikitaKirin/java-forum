@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
+
 @Data
 @Entity
 public class Post {
@@ -22,4 +24,6 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToMany
+    private List<Category> categories;
 }

@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout('Forum: save category', ~{::section}, ${messages})}">
+<body>
+<section>
+    <h1>Save the category</h1>
+    <!--/*@thymesVar id="categoryDTO" type="nikitakirin.forum.dto.CategoryDTO"*/-->
+    <form th:action="@{/categories/save}" th:object="${categoryDTO}" method="post" class="needs-validation">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Title" name="title"
+                   th:classappend="${#fields.hasErrors('title')}? 'is-invalid'"
+                   th:field="*{title}">
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

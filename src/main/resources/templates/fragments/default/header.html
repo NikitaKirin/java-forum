@@ -18,6 +18,10 @@
                         <a class="nav-link" th:classappend="${request?.getRequestURI() == '/posts' ? 'active' : ''}"
                            aria-current="page" th:href="@{/posts}">Posts</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${request?.getRequestURI() == '/categories' ? 'active' : ''}"
+                           aria-current="page" th:href="@{/categories}">Categories</a>
+                    </li>
                 </ul>
             </div>
         </div>

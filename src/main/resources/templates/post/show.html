@@ -5,6 +5,10 @@
     <div>
         <h1>[[${post.title}]]</h1>
         <p>[[${post.description}]]</p>
+        <p>Categories:
+            <strong th:each="category: ${post.categories}">#[[${category.title + " "}]]</strong>
+            <strong th:if="${post.categories.isEmpty()}">Not categories</strong>
+        </p>
         <p class="text-body-tertiary">[[${#dates.format(post.creationDatetime, 'dd.MM.Y / HH:mm')}]]</p>
     </div>
     <div class="btn-group">

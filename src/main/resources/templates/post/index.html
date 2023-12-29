@@ -15,6 +15,10 @@
                         #strings.substring(post?.description,
                         0, 25) + '...' : post?.description}]]</p>
                     <p>Author: [[${post.user.username}]]</p>
+                    <p>Categories:
+                        <strong th:each="category: ${post.categories}">#[[${category.title + " "}]]</strong>
+                        <strong th:if="${post.categories.isEmpty()}">Not categories</strong>
+                    </p>
                     <p class="text-body-tertiary">[[${#dates.format(post.creationDatetime, 'dd.MM.Y / HH:mm')}]]</p>
                     <div class="btn-group">
                         <a th:href="@{/posts/{postId}(postId=${post.id})}" class="btn btn-primary">Read more</a>

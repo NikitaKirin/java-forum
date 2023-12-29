@@ -5,8 +5,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import nikitakirin.forum.entity.Category;
 import nikitakirin.forum.entity.Post;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 @Data
 public class PostDTO {
@@ -18,6 +21,8 @@ public class PostDTO {
 
     @NotBlank
     private String description;
+
+    private List<Category> categories;
 
     public Post toEntity() {
         Post post = new Post();

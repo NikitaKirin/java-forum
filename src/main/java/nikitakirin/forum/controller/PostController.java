@@ -5,8 +5,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nikitakirin.forum.dto.PostDTO;
+import nikitakirin.forum.entity.Category;
 import nikitakirin.forum.entity.Post;
 import nikitakirin.forum.entity.User;
+import nikitakirin.forum.repository.CategoryRepository;
 import nikitakirin.forum.repository.PostRepository;
 import nikitakirin.forum.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,6 +38,7 @@ import java.util.Optional;
 public class PostController {
 
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
     private final UserService userService;
 
     @GetMapping
@@ -57,6 +61,7 @@ public class PostController {
 
     @GetMapping("save")
     public String save(PostDTO postDTO, Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
         return "post/form";
     }
 
@@ -64,6 +69,7 @@ public class PostController {
     public String edit(@PathVariable Long postId, Model model) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
+            model.addAttribute("categories", categoryRepository.findAll());
             model.addAttribute("postDTO", post.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -84,6 +90,7 @@ public class PostController {
         var userDetails = (UserDetails) authentication.getPrincipal();
         User user = (User) userService.loadUserByUsername(userDetails.getUsername());
         post.setUser(user);
+        post.setCategories(postDTO.getCategories());
         postRepository.save(post);
         messages.put("success", "Post successfully saved!");
         redirectAttributes.addFlashAttribute("messages", messages);
