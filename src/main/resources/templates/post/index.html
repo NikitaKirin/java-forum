@@ -3,7 +3,7 @@
 <body>
 <section>
     <div class="d-flex justify-content-between align-items-center">
-        <h1>Posts</h1>
+        <h1 class="mb-5">Posts</h1>
         <a th:href="@{/posts/save}" class="btn btn-primary">Add new post</a>
     </div>
     <div th:if="${not posts.isEmpty()}" class="row">
