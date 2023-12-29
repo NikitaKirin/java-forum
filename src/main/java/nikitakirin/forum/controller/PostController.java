@@ -3,6 +3,7 @@ package nikitakirin.forum.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nikitakirin.forum.dto.CommentDTO;
 import nikitakirin.forum.dto.PostDTO;
 import nikitakirin.forum.entity.Post;
 import nikitakirin.forum.entity.User;
@@ -47,7 +48,7 @@ public class PostController {
     }
 
     @GetMapping("{postId}")
-    public String show(@PathVariable Long postId, Model model) {
+    public String show(@PathVariable Long postId, Model model, CommentDTO commentDTO) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             model.addAttribute("post", post.get());
@@ -89,6 +90,9 @@ public class PostController {
         User user = (User) userService.loadUserByUsername(userDetails.getUsername());
         post.setUser(user);
         post.setCategories(postDTO.getCategories());
+        if (postDTO.getId() != null) {
+            post.setComments(postRepository.findById(postDTO.getId()).get().getComments());
+        }
         postRepository.save(post);
         messages.put("success", "Post successfully saved!");
         redirectAttributes.addFlashAttribute("messages", messages);

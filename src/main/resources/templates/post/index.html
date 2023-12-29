@@ -10,15 +10,16 @@
         <div th:each="post : ${posts}" class="col-4 py-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">[[${post.title}]]</h5>
+                    <h4 class="card-title">[[${post.title}]]</h4>
                     <p class="card-text">[[${#strings.length(post.description) > 25 ?
                         #strings.substring(post?.description,
                         0, 25) + '...' : post?.description}]]</p>
-                    <p>Author: [[${post.user.username}]]</p>
-                    <p>Categories:
-                        <strong th:each="category: ${post.categories}">#[[${category.title + " "}]]</strong>
-                        <strong th:if="${post.categories.isEmpty()}">Not categories</strong>
+                    <p><strong>Author: </strong>[[${post.user.username}]]</p>
+                    <p><strong>Categories: </strong>
+                        <span th:each="category: ${post.categories}">#[[${category.title + " "}]]</span>
+                        <span th:if="${post.categories.isEmpty()}">Not categories</span>
                     </p>
+                    <p><strong>Answers: </strong>[[${post.comments.size()}]]</p>
                     <p class="text-body-tertiary">[[${#dates.format(post.creationDatetime, 'dd.MM.Y / HH:mm')}]]</p>
                     <div class="btn-group">
                         <a th:href="@{/posts/{postId}(postId=${post.id})}" class="btn btn-primary">Read more</a>

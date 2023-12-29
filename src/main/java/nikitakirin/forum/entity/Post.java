@@ -26,4 +26,7 @@ public class Post {
 
     @ManyToMany
     private List<Category> categories;
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "post")
+    private List<Comment> comments;
 }

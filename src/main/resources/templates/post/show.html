@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layouts/default :: layout('Forum: post', ~{::section}, ${messages})}">
 <body>
-<section>
+<section class="mb-5">
     <div>
         <h1>[[${post.title}]]</h1>
         <p>[[${post.description}]]</p>
@@ -28,5 +28,25 @@
         </a>
     </div>
 </section>
+
+<section class="mb-5">
+    <h2>Add the new comment</h2>
+    <!--/*@thymesVar id="commentDTO" type="nikitakirin.forum.dto.CommentDTO"*/-->
+    <form th:action="@{/comments/save}" th:object="${commentDTO}" method="post" class="needs-validation">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" name="post" th:value="${post.id}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <textarea class="form-control" id="title" placeholder="Text" name="text"
+                      th:classappend="${#fields.hasErrors('text')}? 'is-invalid'" th:field="*{text}"></textarea>
+            <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="invalid-feedback"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </form>
+</section>
+
+<section th:replace="~{comment/list :: list (${post.comments})}"></section>
 </body>
 </html>
